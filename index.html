@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>How Cold?</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+        <style>
+        body {        
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 25vw;            
+        }
+
+        h1::after {
+            content: "℃";
+        }
+
+        h3 {
+            font-size: 3vw;        
+        }
+
+        h1, h3 {
+            color: #333333;
+            font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;
+            margin: 0;
+        }
+        </style>
+    </head>
+    <body>
+        <h1></h1>
+        <h3></h3>
+
+        <script>
+            var source = new EventSource( '/tempEvent' ),
+                h1 = document.querySelector( 'h1' ),
+                h3 = document.querySelector( 'h3' ),
+                FS = false;
+            
+            source.addEventListener( 'message', function( evt ){
+                var temp = +evt.data;
+
+                h1.textContent = temp.toFixed( 2 );
+
+                h3.textContent = new Date().toString();
+            });
+            
+            document.addEventListener( 'click', function(){
+                if ( !FS ){                    
+                    document.documentElement.webkitRequestFullscreen()
+                    screen.orientation.lock( 'landscape-primary');
+                } else {
+                    document.webkitExitFullscreen()
+                    screen.orientation.unlock();
+                }     
+                
+                FS = !FS;                  
+                
+            });            
+            
+            
+        </script>
+    <body>
+</html>
